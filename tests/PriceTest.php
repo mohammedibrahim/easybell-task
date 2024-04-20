@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Checkout;
+use App\Collection;
+use App\Contracts\CollectionContract;
+use App\Product;
+use App\ValueObject\ProductQuantityPriceRule;
+use Illuminate\Container\Container;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -11,10 +17,12 @@ use PHPUnit\Framework\TestCase;
  */
 class PriceTest extends TestCase
 {
-    public function price($goods)
+    public function price(string $goods): float
     {
-        $co = new CheckOut(RULES);
+        $co = $this->initCheckout();
+
         $items = str_split($goods);
+
         foreach ($items as $item) {
             $co->scan($item);
         }
@@ -22,7 +30,7 @@ class PriceTest extends TestCase
         return $co->total();
     }
 
-    public function aatestTotals()
+    public function testTotals(): void
     {
         $this->assertEquals(0, $this->price(''));
         $this->assertEquals(50, $this->price('A'));
@@ -41,9 +49,10 @@ class PriceTest extends TestCase
         $this->assertEquals(190, $this->price('DABABA'));
     }
 
-    public function aatestIncremental()
+    public function testIncremental(): void
     {
-        $co = new CheckOut(RULES);
+        $co = $this->initCheckout();
+
         $this->assertEquals(0, $co->total());
         $co->scan('A');
         $this->assertEquals(50, $co->total());
@@ -57,8 +66,19 @@ class PriceTest extends TestCase
         $this->assertEquals(175, $co->total());
     }
 
-    public function testA()
+    private function initCheckout(): Checkout
     {
-        $this->assertTrue(true);
+        $iocContainer = new Container();
+
+        $products = new Collection([
+            new Product('A', 50, new ProductQuantityPriceRule(3, 130)),
+            new Product('B', 30, new ProductQuantityPriceRule(2, 45)),
+            new Product('C', 20),
+            new Product('D', 15),
+        ]);
+
+        $iocContainer->bind(CollectionContract::class, Collection::class);
+
+        return $iocContainer->makeWith(Checkout::class, ['products' => $products]);
     }
 }
