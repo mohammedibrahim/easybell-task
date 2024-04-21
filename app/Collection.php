@@ -31,7 +31,7 @@ readonly class Collection implements CollectionContract, \IteratorAggregate
      */
     public function removeItem(array $keys): CollectionContract
     {
-        return new self($this->laravelCollection->delete($keys)->toArray());
+        return new self($this->laravelCollection->forget($keys)->toArray());
     }
 
     /**
