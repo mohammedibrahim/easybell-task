@@ -7,9 +7,9 @@ namespace App\PriceRule;
 use App\Contracts\PriceRule;
 use App\ValueObject\ProductQuantityPriceRule;
 
-class SpecialPrice implements PriceRule
+readonly class SpecialPrice implements PriceRule
 {
-    public function __construct(private readonly ProductQuantityPriceRule $priceRule) {}
+    public function __construct(private ProductQuantityPriceRule $priceRule) {}
 
     public function calculatePrice(int $quantity, float $regularPrice): float
     {

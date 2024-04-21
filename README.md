@@ -2,6 +2,7 @@
 
 ## Description
 The task involves implementing a checkout system for a retail store. The checkout system should be able to scan products and calculate the total price based on the pricing rules of the store.
+You can find more details about the task [here](http://codekata.com/kata/kata09-back-to-the-checkout/).
 
 #### The pricing rules for each product are defined as follow:
 - Each product has a normal price.
@@ -29,7 +30,7 @@ To use the checkout system:
 3. Get the total price using the `total()` method.
 4. Check the `PriceTest` class for some examples.
 
-Example:
+## Example:
 ```php
 $co = new App\Checkout();
 $co->scan('A');
