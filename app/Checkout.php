@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Contracts\CollectionContract;
+
 readonly class Checkout
 {
+    /**
+     * @param CollectionContract<int, Product> $products
+     */
     public function __construct(
-        private Collection $products,
+        private CollectionContract $products,
         private Cart $cart,
     ) {}
 

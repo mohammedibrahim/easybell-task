@@ -12,7 +12,8 @@ readonly class Product
     public function __construct(
         private string $name,
         private float $price,
-        private ?ProductQuantityPriceRule $priceRules = null,
+        private PriceRuleFactory $priceRuleFactory,
+        private ?ProductQuantityPriceRule $priceRule = null,
     ) {}
 
     public function getName(): string
@@ -22,15 +23,15 @@ readonly class Product
 
     public function getPrice(int $quantity = 1): float
     {
-        $priceRule = $this->getPriceRules();
+        $priceRule = $this->getPriceRule();
 
-        $priceRule = (new PriceRuleFactory())->create($priceRule);
+        $priceRule = $this->priceRuleFactory->create($priceRule);
 
         return $priceRule->calculatePrice($quantity, $this->price);
     }
 
-    public function getPriceRules(): ?ProductQuantityPriceRule
+    public function getPriceRule(): ?ProductQuantityPriceRule
     {
-        return $this->priceRules;
+        return $this->priceRule;
     }
 }

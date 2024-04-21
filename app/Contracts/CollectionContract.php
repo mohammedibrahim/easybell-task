@@ -23,7 +23,10 @@ interface CollectionContract extends \Traversable
      */
     public function addItem(mixed $item): self;
 
-    public function mapItem(callable $callback): mixed;
+    /**
+     * @return CollectionContract<int, mixed>
+     */
+    public function mapItem(callable $callback): self;
 
     public function firstItem(?callable $callback = null, mixed $default = null): mixed;
 }

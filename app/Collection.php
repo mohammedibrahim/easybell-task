@@ -7,11 +7,21 @@ namespace App;
 use App\Contracts\CollectionContract;
 use Illuminate\Support\Collection as IlluminateCollection;
 
-class Collection extends IlluminateCollection implements CollectionContract
+readonly class Collection implements CollectionContract, \IteratorAggregate
 {
+    private IlluminateCollection $laravelCollection;
+
+    /**
+     * @param array<\Iterator> $items
+     */
+    public function __construct(array $items = [])
+    {
+        $this->laravelCollection = new IlluminateCollection($items);
+    }
+
     public function filterItems(?callable $callback = null): CollectionContract
     {
-        return parent::filter($callback);
+        return new self($this->laravelCollection->filter($callback)->toArray());
     }
 
     /**
@@ -21,7 +31,7 @@ class Collection extends IlluminateCollection implements CollectionContract
      */
     public function removeItem(array $keys): CollectionContract
     {
-        return parent::delete($keys);
+        return new self($this->laravelCollection->delete($keys)->toArray());
     }
 
     /**
@@ -29,16 +39,24 @@ class Collection extends IlluminateCollection implements CollectionContract
      */
     public function addItem(mixed $item): CollectionContract
     {
-        return parent::add($item);
+        return new self($this->laravelCollection->add($item)->toArray());
     }
 
-    public function mapItem(callable $callback): mixed
+    /**
+     * @return CollectionContract<int, mixed>
+     */
+    public function mapItem(callable $callback): CollectionContract
     {
-        return parent::map($callback);
+        return new self($this->laravelCollection->map($callback)->toArray());
     }
 
     public function firstItem(?callable $callback = null, mixed $default = null): mixed
     {
-        return parent::first($callback, $default);
+        return $this->laravelCollection->first($callback, $default);
+    }
+
+    public function getIterator(): \Traversable
+    {
+        return $this->laravelCollection->getIterator();
     }
 }
