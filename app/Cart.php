@@ -30,7 +30,7 @@ final readonly class Cart
 
         $itemData = $item->firstItem();
 
-        $this->items->removeItem([$offset]);
+        $this->items->removeItems([$offset]);
 
         $this->addItem($product, $itemData->getQuantity() + 1);
     }

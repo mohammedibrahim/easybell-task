@@ -16,7 +16,7 @@ interface CollectionContract extends \Traversable
      *
      * @return CollectionContract<int, mixed>
      */
-    public function removeItem(array $keys): self;
+    public function removeItems(array $keys): self;
 
     /**
      * @return CollectionContract<int, mixed>

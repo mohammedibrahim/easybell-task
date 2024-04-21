@@ -29,7 +29,7 @@ readonly class Collection implements CollectionContract, \IteratorAggregate
      *
      * @return CollectionContract<int, mixed>
      */
-    public function removeItem(array $keys): CollectionContract
+    public function removeItems(array $keys): CollectionContract
     {
         return new self($this->laravelCollection->forget($keys)->toArray());
     }
