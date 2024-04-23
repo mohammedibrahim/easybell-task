@@ -9,12 +9,12 @@ use App\ValueObject\ProductQuantityPriceRule;
 
 class PriceRuleFactory
 {
-    public function create(?ProductQuantityPriceRule $productPriceRule): PriceRule
+    public function getRule(?ProductQuantityPriceRule $productPriceRule): PriceRule
     {
         if (!is_null($productPriceRule)) {
-            return new SpecialPrice($productPriceRule);
+            return new SpecialPriceStrategy($productPriceRule);
         }
 
-        return new NormalPrice();
+        return new NormalPriceStrategy();
     }
 }

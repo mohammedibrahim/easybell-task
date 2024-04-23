@@ -6,6 +6,7 @@ use App\Checkout;
 use App\Collection;
 use App\Contracts\CollectionContract;
 use App\Product;
+use App\ProductService;
 use App\ValueObject\ProductQuantityPriceRule;
 use Illuminate\Container\Container;
 use PHPUnit\Framework\TestCase;
@@ -82,6 +83,8 @@ class PriceTest extends TestCase
             ],
         ]);
 
-        return Container::getInstance()->makeWith(Checkout::class, ['products' => $products]);
+        $productService = Container::getInstance()->makeWith(ProductService::class, ['products' => $products]);
+
+        return Container::getInstance()->makeWith(Checkout::class, ['productService' => $productService]);
     }
 }

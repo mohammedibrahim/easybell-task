@@ -44,3 +44,7 @@ echo "Total: $total";
 ```shell
 vendor/bin/phpunit
 ```
+
+### Notes
+- I have some concerns regarding the checkout class methods signature.
+- I wanted to dockerize the app but I didn't due to the time limitation.

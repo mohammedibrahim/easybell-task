@@ -7,16 +7,16 @@ namespace App\PriceRule;
 use App\Contracts\PriceRule;
 use App\ValueObject\ProductQuantityPriceRule;
 
-readonly class SpecialPrice implements PriceRule
+readonly class SpecialPriceStrategy implements PriceRule
 {
     public function __construct(private ProductQuantityPriceRule $priceRule) {}
 
     public function calculatePrice(int $quantity, float $regularPrice): float
     {
-        $specialGroups = floor($quantity / $this->priceRule->getQuantity());
+        $specialPriceGroups = floor($quantity / $this->priceRule->getQuantity());
 
         $remainingItems = $quantity % $this->priceRule->getQuantity();
 
-        return $specialGroups * $this->priceRule->getAmount() + $remainingItems * $regularPrice;
+        return $specialPriceGroups * $this->priceRule->getAmount() + $remainingItems * $regularPrice;
     }
 }

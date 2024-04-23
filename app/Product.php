@@ -25,7 +25,7 @@ readonly class Product
     {
         $priceRule = $this->getPriceRule();
 
-        $priceRule = $this->priceRuleFactory->create($priceRule);
+        $priceRule = $this->priceRuleFactory->getRule($priceRule);
 
         return $priceRule->calculatePrice($quantity, $this->price);
     }

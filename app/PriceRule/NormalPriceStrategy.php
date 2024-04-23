@@ -6,7 +6,7 @@ namespace App\PriceRule;
 
 use App\Contracts\PriceRule;
 
-class NormalPrice implements PriceRule
+class NormalPriceStrategy implements PriceRule
 {
     public function calculatePrice(int $quantity, float $regularPrice): float
     {
