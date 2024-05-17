@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Checkout;
-use App\Collection;
-use App\Contracts\CollectionContract;
-use App\Product;
-use App\ProductService;
-use App\ValueObject\ProductQuantityPriceRule;
+use App\Application\Checkout;
+use App\Application\ProductService;
+use App\Domain\Contracts\CollectionContract;
+use App\Domain\Entities\Product;
+use App\Domain\Entities\SpecialProduct;
+use App\Domain\Exceptions\ProductException;
+use App\Domain\ValueObject\ProductQuantityPriceRule;
+use App\Infrastructure\Collection\Collection;
 use Illuminate\Container\Container;
 use PHPUnit\Framework\TestCase;
 
@@ -59,6 +61,23 @@ class PriceTest extends TestCase
         $this->assertEquals(175, $co->total());
     }
 
+    public function testThrowExceptionIfProductNotFound(): void
+    {
+        $co = $this->initCheckout();
+
+        $this->expectException(ProductException::class);
+
+        $productName = 'F';
+
+        $message = sprintf('Product with name "%s" not found.', $productName);
+
+        $this->expectExceptionMessage($message);
+
+        $this->expectExceptionCode(404);
+
+        $co->scan($productName);
+    }
+
     private function price(string $goods): float
     {
         $co = $this->initCheckout();
@@ -76,8 +95,8 @@ class PriceTest extends TestCase
     {
         $products = Container::getInstance()->makeWith(CollectionContract::class, [
             'items' => [
-                Container::getInstance()->makeWith(Product::class, ['name' => 'A', 'price' => 50, 'priceRule' => new ProductQuantityPriceRule(3, 130)]),
-                Container::getInstance()->makeWith(Product::class, ['name' => 'B', 'price' => 30, 'priceRule' => new ProductQuantityPriceRule(2, 45)]),
+                Container::getInstance()->makeWith(SpecialProduct::class, ['name' => 'A', 'price' => 50, 'priceRule' => new ProductQuantityPriceRule(3, 130)]),
+                Container::getInstance()->makeWith(SpecialProduct::class, ['name' => 'B', 'price' => 30, 'priceRule' => new ProductQuantityPriceRule(2, 45)]),
                 Container::getInstance()->makeWith(Product::class, ['name' => 'C', 'price' => 20]),
                 Container::getInstance()->makeWith(Product::class, ['name' => 'D', 'price' => 15]),
             ],

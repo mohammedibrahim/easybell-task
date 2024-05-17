@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\PriceRule;
+namespace App\Domain\PriceRule;
 
-use App\Contracts\PriceRule;
+use App\Domain\Contracts\PriceRule;
 
 class NormalPriceStrategy implements PriceRule
 {

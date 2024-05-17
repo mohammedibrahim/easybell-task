@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ValueObject;
+namespace App\Domain\ValueObject;
 
 readonly class ProductQuantityPriceRule
 {
@@ -19,5 +19,10 @@ readonly class ProductQuantityPriceRule
     public function getAmount(): float
     {
         return $this->amount;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('Special Price: %d for %d', $this->quantity, $this->amount);
     }
 }

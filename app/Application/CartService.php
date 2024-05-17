@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Application;
 
-use App\Contracts\CollectionContract;
+use App\Domain\Contracts\CollectionContract;
+use App\Domain\Entities\Product;
+use App\Domain\ValueObject\CartItem;
 
-final readonly class Cart
+final readonly class CartService
 {
     /**
      * @param CollectionContract<int, CartItem> $items
@@ -24,7 +26,7 @@ final readonly class Cart
 
     public function overrideQuantity(Product $product): void
     {
-        $item = $this->items->filterItems(fn ($item) => $item->getName() === $product->getName());
+        $item = $this->items->filterItems(fn ($item) => $item->getProductName() === $product->getName());
 
         $offset = $item->mapItem(fn ($i, $index) => $index)->firstItem();
 
@@ -39,7 +41,7 @@ final readonly class Cart
     {
         $this->items->addItem(new CartItem(
             $product->getName(),
-            $product->getPrice($quantity),
+            $product->calculatePrice($quantity),
             $quantity,
         ));
     }
@@ -52,15 +54,22 @@ final readonly class Cart
         return $this->items;
     }
 
-    private function withName(string $name): mixed
+    public function calculateCartTotal(): float
     {
-        return $this->items->filterItems(fn ($item) => $item->getName() === $name)->firstItem();
+        $total = 0;
+
+        foreach ($this->getCartItems() as $cartItem) {
+            $total += $cartItem->getPrice();
+        }
+
+        return $total;
     }
 
     private function checkExist(Product $product): bool
     {
-        $itemName = $product->getName();
-
-        return (bool) $this->withName($itemName);
+        return (bool) $this
+            ->items
+            ->filterItems(fn ($item) => $item->getProductName() === $product->getName())->firstItem()
+        ;
     }
 }

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Infrastructure\Collection;
 
-use App\Contracts\CollectionContract;
+use App\Domain\Contracts\CollectionContract;
 use Illuminate\Support\Collection as IlluminateCollection;
 
-readonly class Collection implements CollectionContract, \IteratorAggregate
+class Collection implements CollectionContract, \IteratorAggregate
 {
-    private IlluminateCollection $laravelCollection;
+    protected IlluminateCollection $laravelCollection;
 
     /**
      * @param array<\Iterator> $items

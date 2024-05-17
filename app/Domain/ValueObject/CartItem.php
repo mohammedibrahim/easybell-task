@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Domain\ValueObject;
 
 readonly class CartItem
 {
     public function __construct(
-        private string $name,
-        private float $price,
-        private int $quantity,
+        protected string $productName,
+        protected float $price,
+        protected int $quantity,
     ) {}
 
-    public function getName(): string
+    public function getProductName(): string
     {
-        return $this->name;
+        return $this->productName;
     }
 
     public function getPrice(): float

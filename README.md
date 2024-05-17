@@ -31,8 +31,9 @@ To use the checkout system:
 4. Check the `PriceTest` class for some examples.
 
 ## Example:
+
 ```php
-$co = new App\Checkout();
+$co = new \App\Application\Checkout();
 $co->scan('A');
 $co->scan('B');
 $co->scan('A');
