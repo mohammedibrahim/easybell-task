@@ -13,8 +13,8 @@ class PriceRuleFactory
     public function getRule(Product $product): PriceRuleContract
     {
         return match ($product::class) {
-            SpecialProduct::class => new SpecialPriceStrategyContract($product),
-            default => new NormalPriceStrategyContract($product),
+            SpecialProduct::class => new SpecialPriceStrategy($product),
+            default => new NormalPriceStrategy($product),
         };
     }
 }

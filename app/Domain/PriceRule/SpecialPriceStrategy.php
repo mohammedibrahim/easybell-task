@@ -7,7 +7,7 @@ namespace App\Domain\PriceRule;
 use App\Domain\Contracts\PriceRuleContract;
 use App\Domain\Contracts\ProductRegularPriceAndSpecialRuleAware;
 
-class SpecialPriceStrategyContract implements PriceRuleContract
+class SpecialPriceStrategy implements PriceRuleContract
 {
     public function __construct(protected readonly ProductRegularPriceAndSpecialRuleAware $product) {}
 
