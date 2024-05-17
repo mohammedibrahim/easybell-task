@@ -6,5 +6,5 @@ namespace App\Domain\Contracts;
 
 interface PriceRule
 {
-    public function calculatePrice(int $quantity, float $regularPrice): float;
+    public function calculatePrice(int $quantity): float;
 }

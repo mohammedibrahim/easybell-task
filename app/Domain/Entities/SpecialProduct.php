@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Entities;
 
-use App\Domain\Contracts\SpecialProductRuleAware;
+use App\Domain\Contracts\ProductRegularPriceAndSpecialRuleAware;
 use App\Domain\PriceRule\PriceRuleFactory;
 use App\Domain\ValueObject\ProductQuantityPriceRule;
 
-class SpecialProduct extends Product implements SpecialProductRuleAware
+class SpecialProduct extends Product implements ProductRegularPriceAndSpecialRuleAware
 {
     public function __construct(
         string $name,

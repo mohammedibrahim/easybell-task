@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Entities;
 
+use App\Domain\Contracts\ProductRegularPriceAware;
 use App\Domain\PriceRule\PriceRuleFactory;
 
-class Product
+class Product implements ProductRegularPriceAware
 {
     public function __construct(
         protected string $name,
@@ -28,7 +29,7 @@ class Product
     {
         return $this->priceRuleFactory
             ->getRule($this)
-            ->calculatePrice($quantity, $this->getPrice())
+            ->calculatePrice($quantity)
         ;
     }
 }

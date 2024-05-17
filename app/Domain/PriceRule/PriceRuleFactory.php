@@ -14,7 +14,7 @@ class PriceRuleFactory
     {
         return match ($product::class) {
             SpecialProduct::class => new SpecialPriceStrategy($product),
-            default => new NormalPriceStrategy(),
+            default => new NormalPriceStrategy($product),
         };
     }
 }
