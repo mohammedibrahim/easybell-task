@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\PriceRule;
 
-use App\Domain\Contracts\PriceRule;
+use App\Domain\Contracts\PriceRuleContract;
 use App\Domain\Contracts\ProductRegularPriceAndSpecialRuleAware;
 
-class SpecialPriceStrategy implements PriceRule
+class SpecialPriceStrategyContract implements PriceRuleContract
 {
     public function __construct(protected readonly ProductRegularPriceAndSpecialRuleAware $product) {}
 
