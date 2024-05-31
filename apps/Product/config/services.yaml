@@ -1,0 +1,58 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    _instanceof:
+        EasyBell\Shared\Domain\Bus\Event\DomainEventSubscriber:
+            tags: [ 'domain_event_subscriber' ]
+        EasyBell\Shared\Domain\Bus\Command\CommandHandler:
+            tags: [ 'command_handler' ]
+        EasyBell\Shared\Domain\Bus\Query\QueryHandler:
+            tags: [ 'query_handler' ]
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    EasyBell\Shared\:
+        resource: '../../../src/Shared'
+
+    EasyBell\Product\:
+        resource: '../../../src/Product'
+
+    EasyBell\Shared\Domain\Bus\Command\CommandBus: '@EasyBell\Shared\Infrastructure\Bus\Command\SymfonyInMemoryDomainCommandBus'
+    EasyBell\Shared\Domain\Bus\Query\QueryBus: '@EasyBell\Shared\Infrastructure\Bus\Query\SymfonyInMemoryDomainQueryBus'
+    EasyBell\Product\Domain\Contracts\ProductRepositoryContract: '@EasyBell\Product\Infrastructure\Repository\DoctrineProductRepository'
+
+    EasyBell\Shared\Infrastructure\Bus\Event\SymfonyInMemoryDomainEventBus:
+        arguments: [!tagged domain_event_subscriber]
+        lazy: true
+    EasyBell\Shared\Infrastructure\Bus\Command\SymfonyInMemoryDomainCommandBus:
+        arguments: [!tagged command_handler]
+        lazy: true
+    EasyBell\Shared\Infrastructure\Bus\Query\SymfonyInMemoryDomainQueryBus:
+        arguments: [!tagged query_handler]
+        lazy: true
+
+    EasyBell\Shared\Infrastructure\Doctrine\DatabaseConnections:
+        arguments: [ !tagged database_connection ]
+
+    Doctrine\ORM\EntityManager:
+        factory: [ EasyBell\Product\Infrastructure\Doctrine\ProductEntityManagerFactory, create ]
+        arguments:
+            - driver: '%env(PRODUCT_DATABASE_DRIVER)%'
+              host: '%env(PRODUCT_DATABASE_HOST)%'
+              port: '%env(PRODUCT_DATABASE_PORT)%'
+              dbname: '%env(PRODUCT_DATABASE_NAME)%'
+              user: '%env(PRODUCT_DATABASE_USER)%'
+              password: '%env(PRODUCT_DATABASE_PASSWORD)%'
+            - '%env(APP_ENV)%'
+        tags:
+            - { name: database_connection }
+        public: true
