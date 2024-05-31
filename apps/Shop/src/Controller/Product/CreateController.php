@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyBell\Apps\Shop\Controller;
+namespace EasyBell\Apps\Shop\Controller\Product;
 
 use EasyBell\Product\Application\Create\PostProductCommand;
 use EasyBell\Product\Application\Create\PostSpecialProductCommand;
@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductPostController extends AbstractController
+class CreateController extends AbstractController
 {
     public function __construct(private readonly CommandBus $bus) {}
 
-    #[Route('/product/post', name: 'product_post', methods: ['POST'])]
+    #[Route('/product/create', name: 'product_post', methods: ['POST'])]
     public function post(Request $request): JsonResponse
     {
         $content = json_decode($request->getContent(), true);

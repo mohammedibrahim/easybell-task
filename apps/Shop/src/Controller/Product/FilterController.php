@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyBell\Apps\Shop\Controller;
+namespace EasyBell\Apps\Shop\Controller\Product;
 
 use EasyBell\Product\Application\Filter\FilterProductQuery;
 use EasyBell\Product\Application\Filter\FilterProductResponse;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductFilterController extends AbstractController
+class FilterController extends AbstractController
 {
     public function __construct(private readonly QueryBus $bus) {}
 
