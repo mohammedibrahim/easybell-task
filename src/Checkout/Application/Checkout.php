@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Application;
+namespace EasyBell\Checkout\Application;
 
-class Checkout
+use EasyBell\Product\Application\ProductService;
+
+final class Checkout
 {
     public function __construct(
         protected readonly ProductService $productService,

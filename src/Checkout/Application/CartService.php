@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Application;
+namespace EasyBell\Checkout\Application;
 
-use App\Domain\Contracts\CollectionContract;
-use App\Domain\Entities\Product;
-use App\Domain\ValueObject\CartItem;
+use EasyBell\Checkout\Domain\ValueObject\CartItem;
+use EasyBell\Product\Domain\Product;
+use EasyBell\Shared\Domain\Collection\Contracts\CollectionContract;
 
 final readonly class CartService
 {

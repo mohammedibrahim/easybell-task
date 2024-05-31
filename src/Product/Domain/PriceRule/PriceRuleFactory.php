@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\PriceRule;
+namespace EasyBell\Product\Domain\PriceRule;
 
-use App\Domain\Contracts\PriceRuleContract;
-use App\Domain\Entities\Product;
-use App\Domain\Entities\SpecialProduct;
+use EasyBell\Checkout\Domain\Contracts\PriceRuleContract;
+use EasyBell\Product\Domain\Product;
+use EasyBell\Product\Domain\SpecialProduct;
 
 class PriceRuleFactory
 {

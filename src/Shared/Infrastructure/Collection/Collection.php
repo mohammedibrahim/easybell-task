@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Collection;
+namespace EasyBell\Shared\Infrastructure\Collection;
 
-use App\Domain\Contracts\CollectionContract;
+use EasyBell\Shared\Domain\Collection\Contracts\CollectionContract;
 use Illuminate\Support\Collection as IlluminateCollection;
 
 class Collection implements CollectionContract, \IteratorAggregate
@@ -58,5 +58,10 @@ class Collection implements CollectionContract, \IteratorAggregate
     public function getIterator(): \Traversable
     {
         return $this->laravelCollection->getIterator();
+    }
+
+    public function toArray(): array
+    {
+        return $this->laravelCollection->toArray();
     }
 }

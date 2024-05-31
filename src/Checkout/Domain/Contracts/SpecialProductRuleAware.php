@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Contracts;
+namespace EasyBell\Checkout\Domain\Contracts;
 
-use App\Domain\ValueObject\ProductQuantityPriceRule;
+use EasyBell\Product\Domain\ProductQuantityPriceRule;
 
 interface SpecialProductRuleAware
 {

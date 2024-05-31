@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Contracts;
+namespace EasyBell\Shared\Domain\Collection\Contracts;
 
 interface CollectionContract extends \Traversable
 {
@@ -29,4 +29,6 @@ interface CollectionContract extends \Traversable
     public function mapItem(callable $callback): self;
 
     public function firstItem(?callable $callback = null, mixed $default = null): mixed;
+
+    public function toArray(): array;
 }

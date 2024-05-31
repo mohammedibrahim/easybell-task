@@ -33,7 +33,7 @@ To use the checkout system:
 ## Example:
 
 ```php
-$co = new \App\Application\Checkout();
+$co = new \App\Checkout\Application\Checkout();
 $co->scan('A');
 $co->scan('B');
 $co->scan('A');

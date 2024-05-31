@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\PriceRule;
+namespace EasyBell\Product\Domain\PriceRule;
 
-use App\Domain\Contracts\PriceRuleContract;
-use App\Domain\Contracts\ProductRegularPriceAware;
+use EasyBell\Checkout\Domain\Contracts\PriceRuleContract;
+use EasyBell\Checkout\Domain\Contracts\ProductRegularPriceAware;
 
 class NormalPriceStrategy implements PriceRuleContract
 {
@@ -13,6 +13,6 @@ class NormalPriceStrategy implements PriceRuleContract
 
     public function calculatePrice(int $quantity): float
     {
-        return $quantity * $this->product->getPrice();
+        return $quantity * $this->product->getPrice()->value();
     }
 }

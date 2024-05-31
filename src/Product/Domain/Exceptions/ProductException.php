@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Exceptions;
+namespace EasyBell\Product\Domain\Exceptions;
 
 class ProductException extends \Exception
 {

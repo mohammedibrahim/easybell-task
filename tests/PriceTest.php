@@ -2,16 +2,24 @@
 
 declare(strict_types=1);
 
-use App\Application\Checkout;
-use App\Application\ProductService;
-use App\Domain\Contracts\CollectionContract;
-use App\Domain\Entities\Product;
-use App\Domain\Entities\SpecialProduct;
-use App\Domain\Exceptions\ProductException;
-use App\Domain\ValueObject\ProductQuantityPriceRule;
-use App\Infrastructure\Collection\Collection;
+namespace EasyBell\Tests;
+
+use EasyBell\Checkout\Application\Checkout;
+use EasyBell\Product\Application\ProductService;
+use EasyBell\Product\Domain\Contracts\ProductRepositoryContract;
+use EasyBell\Product\Domain\Exceptions\ProductException;
+use EasyBell\Product\Domain\Product;
+use EasyBell\Product\Domain\ProductQuantityPriceRule;
+use EasyBell\Product\Domain\SpecialProduct;
+use EasyBell\Product\Infrastructure\Repository\InMemoryProductRepository;
+use EasyBell\Shared\Domain\Bus\Event\EventBus;
+use EasyBell\Shared\Domain\Collection\Contracts\CollectionContract;
+use EasyBell\Shared\Infrastructure\Bus\Event\InMemoryDomainEventSubscriber;
+use EasyBell\Shared\Infrastructure\Bus\Event\SymfonyInMemoryDomainEventBus;
+use EasyBell\Shared\Infrastructure\Collection\Collection;
 use Illuminate\Container\Container;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @internal
@@ -23,6 +31,9 @@ class PriceTest extends TestCase
     public function setUp(): void
     {
         Container::getInstance()->bind(CollectionContract::class, Collection::class);
+        Container::getInstance()->bind(EventBus::class, SymfonyInMemoryDomainEventBus::class);
+//        Container::getInstance()->bind(DomainEventSubscriber::class, InMemoryDomainEventSubscriber::class);
+        Container::getInstance()->bind(ProductRepositoryContract::class, InMemoryProductRepository::class);
     }
 
     public function testTotals(): void
@@ -95,14 +106,16 @@ class PriceTest extends TestCase
     {
         $products = Container::getInstance()->makeWith(CollectionContract::class, [
             'items' => [
-                Container::getInstance()->makeWith(SpecialProduct::class, ['name' => 'A', 'price' => 50, 'priceRule' => new ProductQuantityPriceRule(3, 130)]),
-                Container::getInstance()->makeWith(SpecialProduct::class, ['name' => 'B', 'price' => 30, 'priceRule' => new ProductQuantityPriceRule(2, 45)]),
-                Container::getInstance()->makeWith(Product::class, ['name' => 'C', 'price' => 20]),
-                Container::getInstance()->makeWith(Product::class, ['name' => 'D', 'price' => 15]),
+                Container::getInstance()->makeWith(SpecialProduct::class, ['id' => Uuid::uuid4()->toString(), 'name' => 'A', 'price' => 50, 'priceRule' => new ProductQuantityPriceRule(3, 130)]),
+                Container::getInstance()->makeWith(SpecialProduct::class, ['id' => Uuid::uuid4()->toString(), 'name' => 'B', 'price' => 30, 'priceRule' => new ProductQuantityPriceRule(2, 45)]),
+                Container::getInstance()->makeWith(Product::class, ['id' => Uuid::uuid4()->toString(), 'name' => 'C', 'price' => 20]),
+                Container::getInstance()->makeWith(Product::class, ['id' => Uuid::uuid4()->toString(), 'name' => 'D', 'price' => 15]),
             ],
         ]);
 
-        $productService = Container::getInstance()->makeWith(ProductService::class, ['products' => $products]);
+        $repository = Container::getInstance()->makeWith(ProductRepositoryContract::class, ['products' => $products]);
+
+        $productService = Container::getInstance()->makeWith(ProductService::class, ['repository' => $repository]);
 
         return Container::getInstance()->makeWith(Checkout::class, ['productService' => $productService]);
     }

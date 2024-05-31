@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\PriceRule;
+namespace EasyBell\Product\Domain\PriceRule;
 
-use App\Domain\Contracts\PriceRuleContract;
-use App\Domain\Contracts\ProductRegularPriceAndSpecialRuleAware;
+use EasyBell\Checkout\Domain\Contracts\PriceRuleContract;
+use EasyBell\Checkout\Domain\Contracts\ProductRegularPriceAndSpecialRuleAware;
 
 class SpecialPriceStrategy implements PriceRuleContract
 {
@@ -19,6 +19,6 @@ class SpecialPriceStrategy implements PriceRuleContract
 
         $remainingItems = $quantity % $priceRule->getQuantity();
 
-        return $specialPriceGroups * $priceRule->getAmount() + $remainingItems * $this->product->getPrice();
+        return $specialPriceGroups * $priceRule->getPrice() + $remainingItems * $this->product->getPrice()->value();
     }
 }

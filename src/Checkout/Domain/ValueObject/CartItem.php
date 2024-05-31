@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\ValueObject;
+namespace EasyBell\Checkout\Domain\ValueObject;
 
 readonly class CartItem
 {

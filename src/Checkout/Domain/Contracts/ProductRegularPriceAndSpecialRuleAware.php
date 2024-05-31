@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Contracts;
+namespace EasyBell\Checkout\Domain\Contracts;
 
 interface ProductRegularPriceAndSpecialRuleAware extends ProductRegularPriceAware, SpecialProductRuleAware {}
