@@ -3,7 +3,7 @@
 declare(strict_types=1);
 // src/Kernel.php
 
-namespace EasyBell\Apps\Product;
+namespace EasyBell\Apps\Shop;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -37,7 +37,7 @@ class ProductKernel extends BaseKernel
         $container->import(__DIR__.'/../config/packages/doctrine.yaml');
 
         $container->services()
-            ->load('EasyBell\\Apps\\Product\\', __DIR__.'/*')
+            ->load('EasyBell\\Apps\\Shop\\', __DIR__.'/*')
             ->autowire()
             ->autoconfigure()
         ;

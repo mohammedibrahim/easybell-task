@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "EasyBell\\Apps\\Product\\": "apps/Product/src",
+            "EasyBell\\Apps\\Shop\\": "apps/Shop/src",
             "EasyBell\\": ["src"]
         }
     },

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use EasyBell\Apps\Product\ProductKernel;
+use EasyBell\Apps\Shop\ProductKernel;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 

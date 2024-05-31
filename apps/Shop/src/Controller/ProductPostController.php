@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyBell\Apps\Product\Controller;
+namespace EasyBell\Apps\Shop\Controller;
 
 use EasyBell\Product\Application\Create\PostProductCommand;
 use EasyBell\Product\Application\Create\PostSpecialProductCommand;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyBell\Apps\Product\Controller;
+namespace EasyBell\Apps\Shop\Controller;
 
 use EasyBell\Product\Application\Get\GetProductQuery;
 use EasyBell\Product\Application\Get\FilterProductResponse;
