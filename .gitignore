@@ -3,4 +3,5 @@
 .env
 /.idea
 .phpunit.result.cache
-/var
+/var/*
+/apps/Product/var/*
