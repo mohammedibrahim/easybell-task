@@ -4,24 +4,22 @@ declare(strict_types=1);
 
 namespace EasyBell\Product\Domain;
 
-use EasyBell\Checkout\Domain\Contracts\ProductRegularPriceAware;
 use EasyBell\Product\Domain\Events\ProductHasCreatedEvent;
-use EasyBell\Product\Domain\PriceRule\PriceRuleFactory;
 use EasyBell\Shared\Domain\Aggregate\AggregateRoot;
 
-class Product extends AggregateRoot implements ProductRegularPriceAware
-{
+class Product extends AggregateRoot {
     public function __construct(
         protected readonly ProductId $productId,
-        protected ProductName        $name,
-        protected ProductPrice       $price,
-        protected PriceRuleFactory   $priceRuleFactory,
-        protected ProductType             $productType,
-    ) {}
+        protected ProductName $name,
+        protected ProductPrice $price,
+        protected ProductType $productType,
+    ) {
+        $this->productType = new ProductType(ProductTypeValues::SIMPLE);
+    }
 
-    public static function create(ProductName $name, ProductPrice $price, PriceRuleFactory $priceRuleFactory): self
+    public static function create(ProductName $name, ProductPrice $price): self
     {
-        $product = new self(ProductId::random(), $name, $price, $priceRuleFactory, new ProductType(ProductTypeValues::SIMPLE));
+        $product = new self(ProductId::random(), $name, $price, new ProductType(ProductTypeValues::SIMPLE));
 
         $productCreatedEvent = new ProductHasCreatedEvent(
             $product->getProductId(),
@@ -49,16 +47,8 @@ class Product extends AggregateRoot implements ProductRegularPriceAware
         return $this->productId;
     }
 
-    public function calculatePrice(int $quantity = 1): float
-    {
-        return $this->priceRuleFactory
-            ->getRule($this)
-            ->calculatePrice($quantity)
-        ;
-    }
-
     /**
-     * @return array{"id": string, "name": string, "price": float}
+     * @return array{"product_id": string, "name": string, "price": float}
      */
     public function toArray(): array
     {
@@ -73,4 +63,11 @@ class Product extends AggregateRoot implements ProductRegularPriceAware
     {
         return (string) json_encode($this->toArray());
     }
+
+    public function getProductType(): ProductType
+    {
+        return new ProductType(ProductTypeValues::SIMPLE);
+    }
+
+
 }

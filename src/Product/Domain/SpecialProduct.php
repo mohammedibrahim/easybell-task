@@ -4,26 +4,23 @@ declare(strict_types=1);
 
 namespace EasyBell\Product\Domain;
 
-use EasyBell\Checkout\Domain\Contracts\ProductRegularPriceAndSpecialRuleAware;
 use EasyBell\Product\Domain\Events\ProductHasCreatedEvent;
-use EasyBell\Product\Domain\PriceRule\PriceRuleFactory;
 
-class SpecialProduct extends Product implements ProductRegularPriceAndSpecialRuleAware
+class SpecialProduct extends Product
 {
     public function __construct(
         ProductId $productId,
         ProductName $name,
         ProductPrice $price,
-        PriceRuleFactory $priceRuleFactory,
         private SpecialProductQuantity $specialQuantity,
         private SpecialProductPrice $specialPrice,
     ) {
-        parent::__construct($productId, $name, $price, $priceRuleFactory, new ProductType(ProductTypeValues::SPECIAL));
+        parent::__construct($productId, $name, $price, new ProductType(ProductTypeValues::SPECIAL));
     }
 
-    public static function createSpecialProduct(ProductName $name, ProductPrice $price, PriceRuleFactory $priceRuleFactory, SpecialProductQuantity $specialQuantity, SpecialProductPrice $specialPrice, ): self
+    public static function createSpecialProduct(ProductName $name, ProductPrice $price, SpecialProductQuantity $specialQuantity, SpecialProductPrice $specialPrice): self
     {
-        $product = new self(ProductId::random(), $name, $price, $priceRuleFactory, $specialQuantity, $specialPrice);
+        $product = new self(ProductId::random(), $name, $price, $specialQuantity, $specialPrice);
 
         $productCreatedEvent = new ProductHasCreatedEvent(
             $product->getProductId(),
@@ -42,10 +39,15 @@ class SpecialProduct extends Product implements ProductRegularPriceAndSpecialRul
     }
 
     /**
-     * @return array{"id": string, "name": string, "price": float, "quantity": int, "amount": float}
+     * @return array{"product_id": string, "name": string, "price": float, "price_rule": array{"quantity": int, "amount": float}}
      */
     public function toArray(): array
     {
         return array_merge(parent::toArray(), ['price_rule' => $this->getPriceRule()->toArray()]);
+    }
+
+    public function getProductType(): ProductType
+    {
+        return new ProductType(ProductTypeValues::SPECIAL);
     }
 }

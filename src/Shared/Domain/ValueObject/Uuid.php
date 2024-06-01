@@ -18,7 +18,7 @@ abstract class Uuid implements \Stringable
         return $this->value();
     }
 
-    final public static function random(): self
+    final public static function random(): static
     {
         return new static(RamseyUuid::uuid4()->toString());
     }

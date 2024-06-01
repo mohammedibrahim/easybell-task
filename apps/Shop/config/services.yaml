@@ -26,9 +26,13 @@ services:
     EasyBell\Product\:
         resource: '../../../src/Product'
 
+    EasyBell\Checkout\:
+        resource: '../../../src/Checkout'
+
     EasyBell\Shared\Domain\Bus\Command\CommandBus: '@EasyBell\Shared\Infrastructure\Bus\Command\SymfonyInMemoryDomainCommandBus'
     EasyBell\Shared\Domain\Bus\Query\QueryBus: '@EasyBell\Shared\Infrastructure\Bus\Query\SymfonyInMemoryDomainQueryBus'
     EasyBell\Product\Domain\Contracts\ProductRepositoryContract: '@EasyBell\Product\Infrastructure\Repository\DoctrineProductRepository'
+    EasyBell\Checkout\Domain\Contracts\CartRepositoryContract: '@EasyBell\Checkout\Infrastructure\Repository\InMemoryCartRepository'
 
     EasyBell\Shared\Infrastructure\Bus\Event\SymfonyInMemoryDomainEventBus:
         arguments: [!tagged domain_event_subscriber]

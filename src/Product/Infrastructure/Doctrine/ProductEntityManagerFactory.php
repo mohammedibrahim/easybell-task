@@ -12,9 +12,12 @@ final class ProductEntityManagerFactory
 {
     private const SCHEMA_PATH = __DIR__.'/../../../../etc/databases/product.sql';
 
+    /**
+     * @param array{"port": int} $parameters
+     */
     public static function create(array $parameters, string $environment): EntityManagerInterface
     {
-        $parameters['port'] = (int)$parameters['port'];
+        $parameters['port'] = (int) $parameters['port'];
 
         $isDevMode = $environment !== 'prod';
 

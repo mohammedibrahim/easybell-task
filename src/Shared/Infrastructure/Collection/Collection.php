@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyBell\Shared\Infrastructure\Collection;
 
-use EasyBell\Shared\Domain\Collection\Contracts\CollectionContract;
+use EasyBell\Shared\Domain\Collection\CollectionContract;
 use Illuminate\Support\Collection as IlluminateCollection;
 
 class Collection implements CollectionContract, \IteratorAggregate
@@ -12,7 +12,7 @@ class Collection implements CollectionContract, \IteratorAggregate
     protected IlluminateCollection $laravelCollection;
 
     /**
-     * @param array<\Iterator> $items
+     * @param array<int, mixed> $items
      */
     public function __construct(array $items = [])
     {

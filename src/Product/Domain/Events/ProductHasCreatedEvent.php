@@ -26,7 +26,7 @@ class ProductHasCreatedEvent extends DomainEvent
      */
     public static function create(string $aggregateId, array $payload, string $eventId, \DateTime $createdAt): self
     {
-        return new self($aggregateId, $payload['name'], $payload['price'], $eventId, $createdAt);
+        return new self(new ProductId($aggregateId), $payload['name'], $payload['price'], $eventId, $createdAt);
     }
 
     public static function eventName(): string

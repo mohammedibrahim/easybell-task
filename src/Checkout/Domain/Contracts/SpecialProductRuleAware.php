@@ -2,7 +2,7 @@
 
 namespace EasyBell\Checkout\Domain\Contracts;
 
-use EasyBell\Product\Domain\ProductQuantityPriceRule;
+use EasyBell\Checkout\Domain\ProductQuantityPriceRule;
 
 interface SpecialProductRuleAware
 {

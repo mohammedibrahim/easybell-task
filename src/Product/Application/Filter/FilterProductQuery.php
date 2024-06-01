@@ -6,7 +6,7 @@ namespace EasyBell\Product\Application\Filter;
 
 use EasyBell\Shared\Domain\Bus\Query\Query;
 
-class FilterProductQuery implements Query
+readonly class FilterProductQuery implements Query
 {
     public function __construct(
         private array $filters,

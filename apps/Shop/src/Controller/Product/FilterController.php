@@ -27,8 +27,8 @@ class FilterController extends AbstractController
         /** @var FilterProductResponse $response */
         $response = $this->bus->ask(new FilterProductQuery(
             (array) ($request->query->all()['filters'] ?? []),
-            $orderBy,
-            $order,
+            (string) $orderBy,
+            (string) $order,
             $limit === null ? null : (int) $limit,
             $offset === null ? null : (int) $offset
         ));

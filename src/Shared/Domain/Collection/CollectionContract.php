@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyBell\Shared\Domain\Collection\Contracts;
+namespace EasyBell\Shared\Domain\Collection;
 
 interface CollectionContract extends \Traversable
 {

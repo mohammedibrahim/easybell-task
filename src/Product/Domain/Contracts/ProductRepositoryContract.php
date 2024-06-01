@@ -4,7 +4,7 @@ namespace EasyBell\Product\Domain\Contracts;
 
 use EasyBell\Product\Domain\Product;
 use EasyBell\Product\Domain\ProductId;
-use EasyBell\Shared\Domain\Collection\Contracts\CollectionContract;
+use EasyBell\Shared\Domain\Collection\CollectionContract;
 use EasyBell\Shared\Domain\Criteria\Criteria;
 
 interface ProductRepositoryContract
@@ -18,5 +18,8 @@ interface ProductRepositoryContract
 
     public function create(Product $product): void;
 
+    /**
+     * @return CollectionContract<int, Product>
+     */
     public function filter(Criteria $criteria): CollectionContract;
 }

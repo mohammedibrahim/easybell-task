@@ -7,18 +7,20 @@ namespace EasyBell\Product\Infrastructure\Repository;
 use EasyBell\Product\Domain\Contracts\ProductRepositoryContract;
 use EasyBell\Product\Domain\Product;
 use EasyBell\Product\Domain\ProductId;
-use EasyBell\Shared\Domain\Collection\Contracts\CollectionContract;
+use EasyBell\Shared\Domain\Collection\CollectionContract;
 use EasyBell\Shared\Domain\Criteria\Criteria;
+use EasyBell\Shared\Infrastructure\Collection\Collection;
 
 class InMemoryProductRepository implements ProductRepositoryContract
 {
     /**
-     * @param CollectionContract<int, Product> $products
+     * @var CollectionContract<int, Product>
      */
-    public function __construct(
-        private readonly CollectionContract $products,
-    ) {
+    private readonly CollectionContract $products;
 
+    public function __construct(
+    ) {
+        $this->products = new Collection();
     }
 
     /**
@@ -34,12 +36,14 @@ class InMemoryProductRepository implements ProductRepositoryContract
         return $this->list()->filterItems(fn ($item) => $item->getProductId() === $productId)->firstItem() ?? null;
     }
 
-
     public function create(Product $product): void
     {
         $this->products->addItem($product);
     }
 
+    /**
+     * @return CollectionContract<int, Product>
+     */
     public function filter(Criteria $criteria): CollectionContract
     {
         return $this->products;
